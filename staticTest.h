@@ -1,9 +1,14 @@
 #pragma once
 #include <assert.h>
+#include <math.h>
 
 class StaticTest
 {
-public:
+public:   
+    static StaticTest* instance();
+    static void finish();   
+    
+private:
     template<typename _T, typename _P>
     constexpr void checkEqual(const _T& obj1, const _P& obj2)
     {
@@ -17,19 +22,52 @@ public:
     }
     
     template<typename _T, typename _P>
-    constexpr bool moreThan(const _T& obj1, const _P& obj2)
+    constexpr bool more(const _T& obj1, const _P& obj2)
     {
         return obj1>obj2;
     }
     
     template<typename _T, typename _P>
-    constexpr bool lessThan(const _T& obj1, const _P& obj2)
+    constexpr bool less(const _T& obj1, const _P& obj2)
     {
         return obj1<obj2;
     }
     
-    static StaticTest* instance();
-    static void finish();
+    template<typename _T, typename _P>
+    constexpr bool moreEqual(const _T& obj1, const _P& obj2)
+    {
+        return !less(obj1,obj2);
+    }
+
+    template<typename _T, typename _P>
+    constexpr bool lessEqual(const _T& obj1, const _P& obj2)
+    {
+        return !more(obj1,obj2);
+    }
+    
+    template<typename _T, typename _P>
+    friend constexpr bool operator< (const _T& obj1, const _P& obj2)
+    {
+        return less(obj1, obj2);
+    }
+    
+    template<typename _T, typename _P>
+    friend constexpr bool operator> (const _T& obj1, const _P& obj2)
+    {
+        return more(obj1, obj2);
+    }
+    
+    template<typename _T, typename _P>
+    friend constexpr bool operator<= (const _T& obj1, const _P& obj2)
+    {
+        return lessEqual(obj1, obj2);
+    }
+    
+    template<typename _T, typename _P>
+    friend constexpr bool operator>= (const _T& obj1, const _P& obj2)
+    {
+        return moreEqual(obj1, obj2);
+    }
     
 private:
     StaticTest(){}
