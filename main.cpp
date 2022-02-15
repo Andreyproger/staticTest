@@ -2,15 +2,15 @@
 #include <QApplication>
 #include "staticTest.h"
 
-int main(int argc, char *argv[]) {
-    // initialize resources, if needed
-    // Q_INIT_RESOURCE(resfile);
-
+int main(int argc, char *argv[])
+{
     QApplication app(argc, argv);
     
-    StaticTest checkBlock;
+    StaticTest::instance()->finish();
 
     // create and show your widgets here
+    
+    StaticTest::finish();
 
     return app.exec();
 }
